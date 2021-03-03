@@ -47,6 +47,9 @@ Other options include `startNewFile` to always open a new file on start-up.
 
 - `yarn ship`
 
+## Credit
+
+Many thanks to @Rcomian for their work on the original bunyan-rotating-file-stream project, this project borrows lots of the code and all of the ideas in the original.
 
 # Copyright & License 
 
