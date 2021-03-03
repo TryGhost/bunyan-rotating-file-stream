@@ -1,27 +1,41 @@
-# Elasticsearch Bunyan
+# Bunyan Rotating Filestream
 
 ## Install
 
-`npm install elasticsearch-bunyan --save`
+`npm install @tryghost/bunyan-rotating-filestream --save`
 
 or
 
-`yarn add elasticsearch-bunyan`
+`yarn add @tryghost/bunyan-rotating-filestream`
 
 
 ## Usage
 
+Create a bunyan logger using the stream:
+
+```js
+    var log = bunyan.createLogger({
+        name: 'foo',
+        streams: [{
+            stream: new RotatingFileStream({
+                path: '/var/log/foo.log',
+                period: '1d',          // daily rotation
+                totalFiles: 10,        // keep up to 10 back copies
+                rotateExisting: true,  // Give ourselves a clean file when we start up, based on period
+                threshold: '10m',      // Rotate log files larger than 10 megabytes
+                totalSize: '20m',      // Don't keep more than 20mb of archived log files
+                gzip: true             // Compress the archive log files to save space
+            })
+        }]
+    });
+```
+
+Other options include `startNewFile` to always open a new file on start-up.
 
 ## Develop
 
 1. `git clone` this repo & `cd` into it as usual
 2. Run `yarn` to install top-level dependencies.
-
-
-## Run
-
-- `yarn dev`
-
 
 ## Test
 
@@ -36,6 +50,4 @@ or
 
 # Copyright & License 
 
-Copyright (c) 2021 Ghost Foundation. All rights reserved.
-
-This code is considered closed-source and not for distribution. There is no opensource license associated with this project.
+Copyright (c) 2013-2021 Ghost Foundation - Released under the [MIT license](LICENSE).
