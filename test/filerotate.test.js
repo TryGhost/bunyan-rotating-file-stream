@@ -37,12 +37,10 @@ describe('RotatingFileStream', function () {
                 stream
             }]
         });
-        setTimeout(async () => {
-            for (let i = 0; i < 100; i++) {
-                logger.info('Testing ' + i);
-            }
-            await stream.end();
-        }, 1000);
+        for (let i = 0; i < 100; i++) {
+            logger.info('Testing ' + i);
+        }
+        await stream.end();
     });
 
     it('Sets up period correctly', async function () {
