@@ -19,7 +19,7 @@ describe('RotatingFileStream', function () {
 
     it('Processes client configuration', async function () {
         const rfs = new RotatingFileStream(testConfig);
-        assert.strictEqual(rfs._path, 'foo.log');
+        assert.strictEqual(rfs._path, 'logs/foo.log');
         await rfs.end();
     });
 
