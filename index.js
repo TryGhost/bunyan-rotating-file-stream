@@ -21,7 +21,7 @@ class RotatingFileStream {
         this._triggers = [];
         if (config.period) {
             const periodTrigger = new PeriodTrigger(config.period);
-            this.triggers.push(periodTrigger);
+            this._triggers.push(periodTrigger);
             if (config.rotateExisting) {
                 this._rotator.once(FileStartTime, (startTime) => {
                     periodTrigger.setInitialTime(startTime);
@@ -35,7 +35,9 @@ class RotatingFileStream {
         }
         this._rotatingLock = false;
         this._triggers.forEach((trigger) => {
-            trigger.on(Rotate, this._rotate);
+            trigger.on(Rotate, () => {
+                this._rotate();
+            });
         });
         this._rotator.on(NewFile, () => {
             this._queue.setFileHandle(this._rotator.getCurrentHandle());
@@ -52,7 +54,7 @@ class RotatingFileStream {
         this._rotatingLock = true;
         await this._queue.pause();
         const nextFileHandle = await this._rotator.rotate();
-        this._triggers.forEach(trigger => trigger.rotated());
+        this._triggers.forEach(trigger => trigger.newFile());
         this._queue.setFileHandle(nextFileHandle);
         this._rotatingLock = false;
     }

@@ -5,7 +5,7 @@ const bunyan = require('bunyan');
 
 const RotatingFileStream = require('../index');
 const testConfig = {
-    path: 'foo.log',
+    path: 'logs/foo.log',
     totalFiles: 10,
     threshold: '1k',
     rotateExisting: true,
