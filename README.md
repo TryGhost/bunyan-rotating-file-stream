@@ -20,7 +20,7 @@ Create a bunyan logger using the stream:
             stream: new RotatingFileStream({
                 path: '/var/log/foo.log',
                 period: '1d',          // daily rotation
-                totalFiles: 10,        // keep up to 10 back copies
+                totalFiles: 10,        // keep up to 10 backup copies
                 rotateExisting: true,  // Give ourselves a clean file when we start up, based on period
                 threshold: '10m',      // Rotate log files larger than 10 megabytes
                 totalSize: '20m',      // Don't keep more than 20mb of archived log files
