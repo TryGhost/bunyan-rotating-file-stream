@@ -2,6 +2,8 @@ const sinon = require('sinon');
 const assert = require('assert');
 const sandbox = sinon.createSandbox();
 const bunyan = require('bunyan');
+const path = require('path');
+const mkdirp = require('mkdirp');
 
 const RotatingFileStream = require('../index');
 const testConfig = {
@@ -13,6 +15,10 @@ const testConfig = {
 };
 
 describe('RotatingFileStream', function () {
+    before(async function () {
+        await mkdirp(path.parse(testConfig.path).dir);
+    });
+
     afterEach(function () {
         sandbox.restore();
     });
