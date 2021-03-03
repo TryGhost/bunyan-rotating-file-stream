@@ -44,4 +44,18 @@ describe('RotatingFileStream', function () {
             await stream.end();
         }, 1000);
     });
+
+    it('Sets up period correctly', async function () {
+        const stream = new RotatingFileStream({
+            period: '1w',
+            ...testConfig
+        });
+        bunyan.createLogger({
+            name: 'foo',
+            streams: [{
+                stream
+            }]
+        });
+        await stream.end();
+    });
 });
