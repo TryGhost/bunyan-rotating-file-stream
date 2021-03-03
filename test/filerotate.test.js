@@ -3,9 +3,9 @@ const assert = require('assert');
 const sandbox = sinon.createSandbox();
 const bunyan = require('bunyan');
 const path = require('path');
-const mkdirp = require('mkdirp');
 
 const RotatingFileStream = require('../index');
+const fs = require('fs').promises;
 const testConfig = {
     path: 'logs/foo.log',
     totalFiles: 10,
@@ -14,9 +14,15 @@ const testConfig = {
     gzip: true
 };
 
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe('RotatingFileStream', function () {
     before(async function () {
-        await mkdirp(path.parse(testConfig.path).dir);
+        await fs.mkdir(path.parse(testConfig.path).dir, {
+            recursive: true
+        });
     });
 
     afterEach(function () {
@@ -40,6 +46,7 @@ describe('RotatingFileStream', function () {
         for (let i = 0; i < 100; i++) {
             logger.info('Testing ' + i);
         }
+        await delay(0); // immediate delay causes logs to sync
         await stream.end();
     });
 

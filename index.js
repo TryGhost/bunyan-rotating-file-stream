@@ -2,7 +2,7 @@ const WriteQueue = require('./lib/writeQueue');
 const PeriodTrigger = require('./lib/periodTrigger');
 const ThresholdTrigger = require('./lib/thresholdTrigger');
 const FileRotator = require('./lib/fileRotator');
-const {BytesWritten, FileStartTime, Rotate, NewFile} = require('./lib/customEvents');
+const {BytesWritten, Rotate, NewFile} = require('./lib/customEvents');
 
 const fileStreams = [];
 
@@ -20,13 +20,8 @@ class RotatingFileStream {
         this._queue = new WriteQueue();
         this._triggers = [];
         if (config.period) {
-            const periodTrigger = new PeriodTrigger(config.period);
+            const periodTrigger = new PeriodTrigger(config.period, config.rotateExisting);
             this._triggers.push(periodTrigger);
-            if (config.rotateExisting) {
-                this._rotator.once(FileStartTime, (startTime) => {
-                    periodTrigger.setInitialTime(startTime);
-                });
-            }
         }
         if (config.threshold) {
             const thresholdTrigger = new ThresholdTrigger(config.threshold);
@@ -39,9 +34,9 @@ class RotatingFileStream {
                 this._rotate();
             });
         });
-        this._rotator.on(NewFile, () => {
+        this._rotator.on(NewFile, (fileInfo) => {
             this._queue.setFileHandle(this._rotator.getCurrentHandle());
-            this._triggers.forEach(trigger => trigger.newFile());
+            this._triggers.forEach(trigger => trigger.newFile(fileInfo));
         });
         this._initialised = this._rotator.initialise();
     }
