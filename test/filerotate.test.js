@@ -77,4 +77,22 @@ describe('RotatingFileStream', function () {
         });
         await stream.end();
     });
+
+    it('Goes fast with short periods', async function () {
+        const stream = new RotatingFileStream({
+            period: '50ms',
+            ...testConfig
+        });
+        const logger = bunyan.createLogger({
+            name: 'foo',
+            streams: [{
+                stream
+            }]
+        });
+        for (let i = 0; i < 10; i++) {
+            logger.info(`Testing ${i}!`);
+            await delay(50);
+        }
+        await stream.end();
+    });
 });

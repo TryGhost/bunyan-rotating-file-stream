@@ -49,7 +49,6 @@ class RotatingFileStream {
         this._rotatingLock = true;
         await this._queue.pause();
         const nextFileHandle = await this._rotator.rotate();
-        this._triggers.forEach(trigger => trigger.newFile());
         this._queue.setFileHandle(nextFileHandle);
         this._rotatingLock = false;
     }
