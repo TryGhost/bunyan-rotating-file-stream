@@ -1,6 +1,6 @@
 {
   "name": "@tryghost/bunyan-rotating-filestream",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "repository": "git@github.com:TryGhost/bunyan-rotating-filestream.git",
   "author": "Ghost Foundation",
   "license": "MIT",
