@@ -53,4 +53,4 @@ Many thanks to @Rcomian for their work on the original bunyan-rotating-file-stre
 
 # Copyright & License 
 
-Copyright (c) 2013-2021 Ghost Foundation - Released under the [MIT license](LICENSE).
+Copyright (c) 2013-2022 Ghost Foundation - Released under the [MIT license](LICENSE).
